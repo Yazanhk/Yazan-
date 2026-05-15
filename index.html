@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAZAN+ Terminal Glitch</title>
+    <style>
+        /* 1. Terminal Environment Setup */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            /* Strict black background */
+            background-color: #000000;
+            overflow: hidden; /* No scrollbars on wallpaper */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Monospace font for digital/terminal feel */
+            font-family: 'Courier New', Courier, monospace; 
+        }
+
+        /* 2. The Container: Handles positioning and CRT scanlines */
+        .terminal-container {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            /* Add subtle scanlines for realism */
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none; /* Let clicks pass through to desktop */
+        }
+
+        /* 3. The Main Text Styling */
+        .glitch-text {
+            position: relative;
+            color: #FF1111; /* Bright red text */
+            font-size: 10vw; /* Responsive large size */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            
+            /* The primary flicker animation (instability) */
+            animation: textFlicker 3s linear infinite;
+            
+            /* CRT screen glow effect */
+            text-shadow: 0 0 10px rgba(255, 17, 17, 0.7), 0 0 20px rgba(255, 17, 17, 0.5);
+        }
+
+        /* 4. The Glitch Layers: Pseudo-elements to create the "shifted" text */
+        .glitch-text::before,
+        .glitch-text::after {
+            content: 'YAZAN+'; /* Duplicate the text */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        /* Glitch Layer 1: Red/Cyan shift (Offset left) */
+        .glitch-text::before {
+            color: #00FFFF; /* Cyan contrast */
+            z-index: -1;
+            /* Animation for random 'steps' displacement */
+            animation: glitchEffect1 2.5s infinite linear alternate-reverse;
+        }
+
+        /* Glitch Layer 2: Red/Magenta shift (Offset right) */
+        .glitch-text::after {
+            color: #FF00FF; /* Magenta contrast */
+            z-index: -2;
+            animation: glitchEffect2 3.1s infinite linear alternate-reverse;
+        }
+
+        /* 5. Keyframes: Animation Definitions */
+
+        /* A. The primary instability flicker */
+        @keyframes textFlicker {
+            0% { opacity: 0.1; }
+            2% { opacity: 1; }
+            5% { opacity: 0.3; }
+            10% { opacity: 1; }
+            15% { opacity: 0.8; }
+            20% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+
+        /* B. Glitch Effect 1 (Horizontal and Vertical Steps) */
+        @keyframes glitchEffect1 {
+            /* We use 'clip' (or clip-path) to 'slice' the text and move sections */
+            0% { clip: rect(20px, 9999px, 10px, 0); transform: translate(-4px, -2px); }
+            20% { clip: rect(60px, 9999px, 30px, 0); transform: translate(2px, 4px); }
+            40% { clip: rect(10px, 9999px, 90px, 0); transform: translate(-6px, 2px); }
+            60% { clip: rect(45px, 9999px, 35px, 0); transform: translate(3px, -4px); }
+            80% { clip: rect(15px, 9999px, 75px, 0); transform: translate(-2px, 0px); }
+            100% { clip: rect(20px, 9999px, 10px, 0); transform: translate(0); }
+        }
+
+        /* C. Glitch Effect 2 (Alternative offsets and timing) */
+        @keyframes glitchEffect2 {
+            0% { clip: rect(15px, 9999px, 40px, 0); transform: translate(4px, 2px); }
+            30% { clip: rect(80px, 9999px, 20px, 0); transform: translate(-3px, -4px); }
+            60% { clip: rect(5px, 9999px, 55px, 0); transform: translate(5px, 3px); }
+            100% { clip: rect(30px, 9999px, 20px, 0); transform: translate(-4px, -2px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="terminal-container">
+        <!-- The core text element -->
+        <div class="glitch-text" data-text="YAZAN+">YAZAN+</div>
+    </div>
+
+</body>
+</html>
